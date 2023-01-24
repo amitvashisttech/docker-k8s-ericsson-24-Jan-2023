@@ -1,4 +1,7 @@
- 1  cat /etc/*-release
+# Demo 1
+
+```
+    1  cat /etc/*-release
     2  ls
     3  git clone https://github.com/amitvashisttech/docker-k8s-ericsson-24-Jan-2023.git
     4  ls
@@ -56,3 +59,75 @@
    56  docker run busybox sleep 300
    57  history
 root@master:~#
+
+```
+
+Demo 2: 
+
+```
+ 1  docker version
+    2  systemctl status docker
+    3  docker pull ubuntu:16.04
+    4  docker images
+    5  docker ps
+    6  docker ps -a
+    7  docker ps -a -q
+    8  docker stop 5722d80ed397
+    9  docker ps
+   10  docker ps -a
+   11  docker start 5722d80ed397
+   12  docker ps
+   13  docker stop 5722d80ed397
+   14  docker ps -a
+   15  docker rm 5722d80ed397
+   16  docker ps
+   17  docker images
+   18  docker rmi amitvashist7/k8s-tiny-web
+   19  docker images
+   20  docker rmi amitvashist7/k8s-tiny-web:2
+   21  docker images
+   22  docker ps
+   23  docker ps -a
+   24  docker inspect mytest-1
+   25  ls
+   26  docker ps
+   27  docker run -it ubuntu:16.04
+   28  docker ps
+   29  docker ps -a
+   30  docker start 01b47b1bb300
+   31  docker ps
+   32  docker attach 01b47b1bb300
+   33  docker ps
+   34  docker image
+   35  docker images
+   36  docker run -d amitvashist7/k8s-tiny-web:3
+   37  docker ps
+   38  docker attach af4b5e470499
+   39  docker ps
+   40  docker run -d amitvashist7/k8s-tiny-web:3
+   41  docker exec -it 01b47b1bb300 sh
+   42  docker ps
+   43  docker attach 01b47b1bb300
+   44  docker exec -it 01b47b1bb300 bash
+   45  ls
+   46  docker ps
+   47  docker inspect 84869ea324ec
+   48  docker ps
+   49  docker attach 84869ea324ec
+   50  docker ps
+   51  docker start 84869ea324ec
+   52  docker ps
+   53  docker exec -it 84869ea324ec bash
+   54  docker exec -it 84869ea324ec sh
+   55  ls
+   56  docker images
+   57  docker inspect 66ba00ad3de8
+   58  docker images
+   59  docker inspect b6f507652425
+   60  docker history b6f507652425
+   61  docker images
+   62  docker history 1c8ebca1393b
+   63  ls
+   64  history
+
+```
