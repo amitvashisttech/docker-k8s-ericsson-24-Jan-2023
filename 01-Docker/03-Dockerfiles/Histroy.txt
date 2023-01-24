@@ -1,0 +1,81 @@
+1064  mkdir 04-Dockerfiles
+ 1065  cd 04-Dockerfiles/
+ 1066  ls
+ 1067  mkdir apache/{v1,v2} -p
+ 1068  cd apache/
+ 1069  ls
+ 1070  cd v1/
+ 1071  ls
+ 1072  vim Dockerfile
+ 1073  ls
+ 1074  docker build -t testapache:v1 .
+ 1075  docker build -t testapache-test-1:v1 .
+ 1076  docker images
+ 1077  docker run -d --name devtest-vol-9 testapache-test-1:v1
+ 1078  docker ps
+ 1079  docker inspect 6ceb94546f6d
+ 1080  ls
+ 1081  cd ..
+ 1082  ls
+ 1083  cp -rf v1/* v2/
+ 1084  ls
+ 1085  cd v2/
+ 1086  ls
+ 1087  vim Dockerfile
+ 1088  docker build -t testapache-test-1:v2 .
+ 1089  docker images | grep testapache-*
+ 1090  docker run -d --name t-1 testapache-test-1:v2
+ 1091  docker ps
+ 1092  docker run -itd --name t-2 testapache-test-1:v2
+ 1093  docker ps
+ 1094  ls
+ 1095  cd ..
+ 1096  ls
+ 1097  cp -rf v1 v3
+ 1098  ls
+ 1099  cd v3/
+ 1100  ls
+ 1101  mv Dockerfile amit-file
+ 1102  ls
+ 1103  vim index.html
+ 1104  ls
+ 1105  vim ports.conf
+ 1106  vim index.html
+ 1107  ls
+ 1108  vim amit-file
+ 1109  docker build -t testapache-test-1:v3 .
+ 1110  ls
+ 1111  docker build -t testapache-test-1:v3 -f amit-file .
+ 1112  docker images | grep testapache-*
+ 1113  cd
+ 1114  docker run -d --name t-3 testapache-test-1:v3
+ 1115  docker ps
+ 1116  docker inspect ac7290b5e981
+ 1117  curl 172.17.0.6
+ 1118  curl 172.17.0.6:9091
+ 1119  cd -
+ 1120  ls
+ 1121  cd ..
+ 1122  ls
+ 1123  cp -rf v3 v4
+ 1124  ls
+ 1125  cd v4/
+ 1126  ls
+ 1127  vim amit-file
+ 1128  docker build -t testapache-test-1:v4 -f amit-file .
+ 1129  docker images | grep testapache-*
+ 1130  docker run -d --name t-4 testapache-test-1:v4
+ 1131  docker ps
+ 1132  docker run -d --name t-5 -P  testapache-test-1:v4
+ 1133  docker ps
+ 1134  ls
+ 1135  cd ..
+ 1136  ls
+ 1137  cp -rf v4 v5
+ 1138  ls
+ 1139  cd v5/
+ 1140  ls
+ 1141  vim amit-file
+ 1142  docker build -t testapache-test-1:v5 -f amit-file .
+ 1143  docker run -d --name t-6 -P  testapache-test-1:v5
+ 1144  docker ps
