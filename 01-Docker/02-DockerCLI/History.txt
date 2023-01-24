@@ -1,0 +1,58 @@
+ 1  cat /etc/*-release
+    2  ls
+    3  git clone https://github.com/amitvashisttech/docker-k8s-ericsson-24-Jan-2023.git
+    4  ls
+    5  cd docker-k8s-ericsson-24-Jan-2023/
+    6  ls
+    7  cd 01-Docker/
+    8  ls
+    9  cd 01-Docker-Installation/
+   10  ls
+   11  cat install-docker.sh
+   12  ls
+   13  sh install-docker.sh
+   14  cd
+   15  ls
+   16  cd docker-k8s-ericsson-24-Jan-2023/
+   17  ls
+   18  cd 01-Docker/
+   19  ls
+   20  cd 01-Docker-Installation/
+   21  ls
+   22  sh install-docker.sh
+   23  docker version
+   24  vim install-docker.sh
+   25  ls
+   26  docker version
+   27  docker run busybox echo "Welcome to Docker"
+   28  docker images
+   29  docker run busybox echo "Welcome to Docker - 2"
+   30  docker run ubuntu echo "Welcome to Docker - 2"
+   31  docker run ubuntu echo "Welcome to Docker - 3"
+   32  docker run busybox-1 echo "Welcome to Docker - 2"
+   33  docker pull amitvashist7/k8s-tiny-web
+   34  docker images
+   35  docker pull amitvashist7/k8s-tiny-web:2
+   36  docker pull amitvashist7/k8s-tiny-web:3
+   37  docker images
+   38  cd /var/lib/docker/
+   39  ls
+   40  cd image/
+   41  ls
+   42  cd aufs/
+   43  ls
+   44  cat repositories.json
+   45  ls
+   46  cd layerdb/
+   47  ls
+   48  cd sha256/
+   49  ls
+   50  cd
+   51  ls
+   52  docker ps
+   53  docker ps -a
+   54  docker run busybox-1 sleep 10
+   55  docker run busybox sleep 10
+   56  docker run busybox sleep 300
+   57  history
+root@master:~#
