@@ -32,7 +32,7 @@
 | ------------------------------- | --------------------------------------------- |
 | docker images | List all the images |
 | docker build -t mywebapp:v1 .  | To build a custom image from Dockerfile |
-| docker commit -m "Test" -p <container-id> <new-image-name> | Commit the container to build custom image |
+| docker commit -m "<comment>" -p <container-id> <new-image-name> | Commit the container to build custom image |
 | docker inspect <image-id> | Inspect the Image Details |
   
   
