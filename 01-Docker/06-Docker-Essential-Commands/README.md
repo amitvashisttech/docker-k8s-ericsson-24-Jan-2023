@@ -45,7 +45,7 @@
 | docker run -d --name myweb-9 -p 8080:9091 mywebapp:v6 | Static Port Mapping |
 | docker run -d --name myweb-10 -P mywebapp:v6 | Dynamic Port Mapping |
 | docker inspect --format '{{.Name}} {{.State.Running}} {{.NetworkSettings.IPAddress}}' $(docker ps -q) | List the container status & IP Details |
-| docker exec -it <container-id> ifconfig | List the container status & IP Details |
+| docker exec -it container-id ifconfig | List the container status & IP Details |
 | docker network create --driver "bridge" --subnet 172.28.0.0/16 --gateway 172.28.0.254 --ip-range 172.28.0.0/24 mybr0 | Create a custom Docker Network|  
-| docker run -d --name <container-name> --network <custom-network-name>  <imagename:tag> | Binding a container to custom network|    
+| docker run -d --name container-name --network custom-network-name  imagename:tag | Binding a container to custom network|    
   
