@@ -57,7 +57,6 @@ docker commit -m "My Network" -p test-nw-1 mynetwork:v1
 ```
 
 
-```
   264  docker run -it --name test-nw-1 ubuntu:16.04
   265  docker ps
   266  docker commit -m "My Network" -p test-nw-1 mynetwork:v1
