@@ -44,7 +44,18 @@
 
 # Demo 2 
 
-# Spin up a ubuntu:16.04 Container & run 'apt-get update ; apt-get install net-tools -y' for network image. 
+# Start a new ubuntu:16.04 based container & install net-tools by running the following commands
+```
+'apt-get update ; apt-get install net-tools -y' 
+```
+# Now come out of the container by following Escap Seq -> CTL P Q. 
+# Finally commit the container & create a nework image. 
+```
+
+```
+docker commit -m "My Network" -p test-nw-1 mynetwork:v1
+```
+
 
 ```
   264  docker run -it --name test-nw-1 ubuntu:16.04
