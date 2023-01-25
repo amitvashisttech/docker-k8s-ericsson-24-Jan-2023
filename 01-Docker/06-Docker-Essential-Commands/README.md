@@ -20,3 +20,12 @@
 | docker stats | Display a live stream of container(s) resource usage statistics |
 | docker top container-id or name | Display the running processes of a container |
 | docker version | Show the Docker version information |
+
+
+- The below are the list of essential commands that can be used to build images
+
+|     Commands                 |    Description                                  |
+| ------------------------------- | --------------------------------------------- |
+| docker images | List all the images |
+| docker build -t mywebapp:v1 .  | To build a custom image from Dockerfile |
+| docker commit -m "Test" -p <container-id> <new-image-name> | Commit the container to build custom image |
