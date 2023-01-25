@@ -1,5 +1,6 @@
 # Docker - Essential Commands
-- The below are the list of essential commands we are in need 
+
+### The below are the list of essential commands we are in need 
 
 |     Commands                 |    Description                                  |
 | ------------------------------- | --------------------------------------------- |
@@ -22,7 +23,7 @@
 | docker version | Show the Docker version information |
 
 
-- The below are the list of essential commands that can be used to build images
+### The below are the list of essential commands that can be used to build images
 
 |     Commands                 |    Description                                  |
 | ------------------------------- | --------------------------------------------- |
