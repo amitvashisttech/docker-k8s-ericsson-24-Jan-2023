@@ -50,12 +50,12 @@
 ```
 # Now come out of the container by following Escap Seq -> CTL P Q. 
 # Finally commit the container & create a nework image. 
-```
 
 ```
 docker commit -m "My Network" -p test-nw-1 mynetwork:v1
 ```
 
+```
 
   264  docker run -it --name test-nw-1 ubuntu:16.04
   265  docker ps
