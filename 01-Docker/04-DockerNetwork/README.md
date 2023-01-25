@@ -41,3 +41,36 @@
   173  netstat -tulnp
   174  systemctl  status docker
 ```
+
+
+# Demo 2 
+
+```
+ 206  systemctl status docker
+  207  netstat -tulnp
+  208  ip addr
+  209  docker network ls
+  210  bridge link
+  211  ip addr
+  212  docker network ls
+  213  docker network create --help
+  214  docker network create --driver "bridge" --subnet 172.28.0.0/16 --gateway 172.28.0.254 --ip-range 172.28.0.0/24 mybr0
+  215  docker network ls
+  216  docker network inspect mybr0
+  217  history
+  218  ip addr
+  219  docker network ls
+  220  docker kill $(docker ps -aq)
+  221  docker rm $(docker ps -aq)
+  222  ld
+  223  docker network ls
+  224  docker network rm mytest-br0
+  225  docker network rm mybr0
+  226  docker network ls
+  227  docker network inspect none
+  228  docker exec -it test-nw-1 ifconfig
+  229  docker exec -it test-nw-w ifconfig
+  230  docker exec -it test-nw-2 ifconfig
+  231  docker exec -it test-nw-3 ifconfig
+
+```
