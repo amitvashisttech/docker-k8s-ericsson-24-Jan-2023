@@ -52,3 +52,10 @@ docker rmi  <image-id>
 docker inspect <container-id>
 docker inspect <image-id>
 ```
+
+## Step-10: Cleaning UP 
+```
+docker kill $(docker ps -q)
+docker rm $(docker ps -qa)
+```
+
