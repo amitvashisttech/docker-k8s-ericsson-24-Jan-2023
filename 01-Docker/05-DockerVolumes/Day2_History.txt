@@ -1,0 +1,50 @@
+ 1009  ls
+ 1010  docker run -it ubuntu:16.04 
+ 1011  docker ps 
+ 1012  docker start bb47d75d7eea
+ 1013  docker attach bb47d75d7eea
+ 1014  docker rm bb47d75d7eea
+ 1015  docker ps -a 
+ 1016  docker rm $(docker ps -aq) 
+ 1017  ls
+ 1018  docker volume ls 
+ 1019  docker volume ls -q
+ 1020  docker volume rm $(docker volume ls -q)
+ 1021  docker volume ls 
+ 1022  docker volume create my-vol
+ 1023  docker volume ls 
+ 1024  docker volume inspect my-vol
+ 1025  ls -ltr /var/lib/docker/volumes/my-vol/_data
+ 1026  docker run -it --name devtest-vol-1 -v my-vol:/app ubuntu:16.04 
+ 1027  docker ps 
+ 1028  ls -ltr /var/lib/docker/volumes/my-vol/_data
+ 1029  ls -ltr /var/lib/docker/volumes/my-vol/_data/testing-docker-vol/
+ 1030  cat  /var/lib/docker/volumes/my-vol/_data/testing-docker-vol/hello.txt 
+ 1031  docker run -it --name devtest-vol-2 -v my-vol:/app ubuntu:16.04 
+ 1032  ls
+ 1033  docker rm $(docker ps -q)
+ 1034  docker rm $(docker ps -aq)
+ 1035  docker ps -a 
+ 1036  docker volume ls 
+ 1037  cat  /var/lib/docker/volumes/my-vol/_data/testing-docker-vol/hello.txt 
+ 1038  docker run -it --name devtest-vol-3 -v /amit ubuntu:16.04 
+ 1039  docker ps 
+ 1040  docker volume ls 
+ 1041  docker volume inspect 83b74c58107f936fb0b0974e3922814c4adf9770b5e1bf36c331b95965776828
+ 1042  cat /var/lib/docker/volumes/83b74c58107f936fb0b0974e3922814c4adf9770b5e1bf36c331b95965776828/_data/abc.txt 
+ 1043  docker ps 
+ 1044  docker inspect 37e368038fd1
+ 1045  docker run -itd --name devtest-vol-4 -v /amit ubuntu:16.04 
+ 1046  docker volume ls 
+ 1047  cd ..
+ 1048  s
+ 1049  pwd
+ 1050  docker run -it --name devtest-vol-7 -v /root/docker-k8s-ericsson-01-Dec-2022:/app ubuntu:16.04 
+ 1051  docker run -it --name devtest-vol-8 -v /root/docker-k8s-ericsson-01-Dec-2022:/app:ro ubuntu:16.04 
+ 1052  ls
+ 1053  cd 01-Docker/
+ 1054  ls
+ 1055  cd 03-DockerVolumes/
+ 1056  ls
+ 1057  history 
+ 1058  history > Day2_History.txt 
