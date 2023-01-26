@@ -8,7 +8,7 @@
 ## First clone this repository on your windows machine.
 
 ```
-git clone https://github.com/amitvashisttech/docker-k8s-ericsson-01-Dec-2022.git
+git clone https://github.com/amitvashisttech/docker-k8s-ericsson-24-Jan-2023.git
 ``` 
 
 ## Now provision three virtual machines with following commands:
@@ -36,8 +36,8 @@ Note :
 ```
 vagrant.exe ssh master
 sudo su - 
-git clone https://github.com/amitvashisttech/docker-k8s-ericsson-01-Dec-2022.git
-cd docker-k8s-ericsson-01-Dec-2022/00-Setup
+git clone https://github.com/amitvashisttech/docker-k8s-ericsson-24-Jan-2023.git
+cd docker-k8s-ericsson-24-Jan-2023/00-Setup
 sh install-k8s-master-node.sh
 
 ---
@@ -76,8 +76,8 @@ k8s-master   Ready    master   5m6s   v1.18.0
 ```
 vagrant.exe ssh woker1
 sudo su - 
-git clone https://github.com/amitvashisttech/docker-k8s-ericsson-01-Dec-2022.git
-cd docker-k8s-ericsson-01-Dec-2022/00-Setup
+git clone https://github.com/amitvashisttech/docker-k8s-ericsson-24-Jan-2023.git
+cd docker-k8s-ericsson-24-Jan-2023/00-Setup
 sh install-k8s-worker-node.sh
 ```
 
