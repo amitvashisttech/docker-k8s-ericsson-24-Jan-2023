@@ -14,8 +14,7 @@
    67  kubectl scale --replicas=2 statefulset helloworld-statefull
    68  kubectl scale --replicas=10 statefulset helloworld-statefull
    69  kubectl describe statefulset
-   70  kubectl set image k8s-demo=amitvashist7/k8s-tiny-web:2 statefulset helloworld-statefull --record
-   71  kubectl set image statefulset helloworld-statefull k8s-demo=amitvashist7/k8s-tiny-web:2
+   71  kubectl set image statefulset helloworld-statefull k8s-demo=amitvashist7/k8s-tiny-web:2 --record
    72  kubectl rollout status statefulset helloworld-statefull
    73  kubectl describe pod helloworld-statefull-0
    74  kubectl describe pod helloworld-statefull-9
