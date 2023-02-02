@@ -157,8 +157,177 @@ kubectl run pi --image=perl --restart=OnFailure -- perl -Mbignum=bpi -wle 'print
 kubectl run pi --schedule="0/5 * * * ?" --image=perl --restart=OnFailure -- perl -Mbignum=bpi -wle 'print bpi(2000)'
 ```
 
+### 7. Set - Configure application resources.
+```
+# Update deployment 'registry' with a new environment variable
+kubectl set env deployment/registry STORAGE_DIR=/local
 
+# List the environment variables defined on a deployments 'sample-build'
+kubectl set env deployment/sample-build --list
 
+# List the environment variables defined on all pods
+kubectl set env pods --all --list
+
+# Output modified deployment in YAML, and does not alter the object on the server
+kubectl set env deployment/sample-build STORAGE_DIR=/data -o yaml
+
+# Update all containers in all replication controllers in the project to have ENV=prod
+kubectl set env rc --all ENV=prod
+
+# Import environment from a secret
+kubectl set env --from=secret/mysecret deployment/myapp
+
+# Import environment from a config map with a prefix
+kubectl set env --from=configmap/myconfigmap --prefix=MYSQL_ deployment/myapp
+
+# Remove the environment variable ENV from container 'c1' in all deployment configs
+kubectl set env deployments --all --containers="c1" ENV-
+
+# Remove the environment variable ENV from a deployment definition on disk and
+# update the deployment config on the server
+kubectl set env -f deploy.json ENV-
+
+# Set some of the local shell environment into a deployment config on the server
+env | grep RAILS_ | kubectl set env -e - deployment/registry
+
+# Set a deployment's nginx container image to 'nginx:1.9.1', and its busybox container image to 'busybox'.
+kubectl set image deployment/nginx busybox=busybox nginx=nginx:1.9.1
+
+# Update all deployments' and rc's nginx container's image to 'nginx:1.9.1'
+kubectl set image deployments,rc nginx=nginx:1.9.1 --all
+
+# Update image of all containers of daemonset abc to 'nginx:1.9.1'
+kubectl set image daemonset abc *=nginx:1.9.1
+
+# Print result (in yaml format) of updating nginx container image from local file, without hitting the server
+kubectl set image -f path/to/file.yaml nginx=nginx:1.9.1 --local -o yaml
+
+# Set a deployments nginx container cpu limits to "200m" and memory to "512Mi"
+kubectl set resources deployment nginx -c=nginx --limits=cpu=200m,memory=512Mi
+
+# Set the resource request and limits for all containers in nginx
+kubectl set resources deployment nginx --limits=cpu=200m,memory=512Mi --requests=cpu=100m,memory=256Mi
+
+# Remove the resource requests for resources on containers in nginx
+kubectl set resources deployment nginx --limits=cpu=0,memory=0 --requests=cpu=0,memory=0
+
+# Print the result (in yaml format) of updating nginx container limits from a local, without hitting the server
+kubectl set resources -f path/to/file.yaml --limits=cpu=200m,memory=512Mi --local -o yaml
+
+# Set Deployment nginx-deployment's ServiceAccount to serviceaccount1
+kubectl set serviceaccount deployment nginx-deployment serviceaccount1
+
+# Print the result (in yaml format) of updated nginx deployment with serviceaccount from local file, without hitting apiserver
+kubectl set sa -f nginx-deployment.yaml serviceaccount1 --local --dry-run -o yaml
+```
+
+### 8. Autoscale - Creates an autoscaler that automatically chooses and sets the number of pods that run in a kubernetes cluster
+```
+# Auto scale a deployment "foo", with the number of pods between 2 and 10, no target CPU utilization specified so a default autoscaling policy will be used:
+kubectl autoscale deployment foo --min=2 --max=10
+
+# Auto scale a replication controller "foo", with the number of pods between 1 and 5, target CPU utilization at 80%:
+kubectl autoscale rc foo --max=5 --cpu-percent=80
+```
+
+### 9. Rollout - Manage the rollout of a resource.
+```
+# Rollback to the previous deployment
+kubectl rollout undo deployment/abc
+
+# Check the rollout status of a daemonset
+kubectl rollout status daemonset/foo
+
+# View the rollout history of a deployment
+kubectl rollout history deployment/abc
+
+# View the details of daemonset revision 3
+kubectl rollout history daemonset/abc --revision=3
+
+# Mark the nginx deployment as paused. Any current state of
+# the deployment will continue its function, new updates to the deployment will not
+# have an effect as long as the deployment is paused.
+kubectl rollout pause deployment/nginx
+
+# Resume an already paused deployment
+kubectl rollout resume deployment/nginx
+
+# Watch the rollout status of a deployment
+kubectl rollout status deployment/nginx
+
+# Rollback to the previous deployment
+kubectl rollout undo deployment/abc
+
+# Rollback to daemonset revision 3
+kubectl rollout undo daemonset/abc --to-revision=3
+
+# Rollback to the previous deployment with dry-run
+kubectl rollout undo --dry-run=true deployment/abc
+```
+
+### 10. Scale - Set a new size for a Deployment, ReplicaSet, Replication Controller, or StatefulSet.
+```
+# Scale a replicaset named 'foo' to 3.
+kubectl scale --replicas=3 rs/foo
+
+# Scale a resource identified by type and name specified in "foo.yaml" to 3.
+kubectl scale --replicas=3 -f foo.yaml
+
+# If the deployment named mysql's current size is 2, scale mysql to 3.
+kubectl scale --current-replicas=2 --replicas=3 deployment/mysql
+
+# Scale multiple replication controllers.
+kubectl scale --replicas=5 rc/foo rc/bar rc/baz
+
+# Scale statefulset named 'web' to 3.
+kubectl scale --replicas=3 statefulset/web
+```
+
+##  Useful cluster management command
+
+### 1. Cluster-info - Display addresses of the master and services with label kubernetes.io/cluster-service=true To further debug and diagnose cluster problems, use ‘kubectl cluster-info dump’.
+
+```
+# Print the address of the master and cluster services
+kubectl cluster-info
+```
+
+### 2. Cordon / Uncordon - Mark node as (un)schedulable.
+```
+# Mark node "foo" as unschedulable.
+kubectl cordon foo
+
+# Mark node "foo" as schedulable.
+$ kubectl uncordon foo
+```
+
+### 3. Drain - Drain node in preparation for maintenance.
+```
+# Drain node "foo", even if there are pods not managed by a ReplicationController, ReplicaSet, Job, DaemonSet or StatefulSet on it.
+$ kubectl drain foo --force
+
+# As above, but abort if there are pods not managed by a ReplicationController, ReplicaSet, Job, DaemonSet or StatefulSet, and use a grace period of 15 minutes.
+$ kubectl drain foo --grace-period=90
+
+#Drain node by ignoring Deamonsets
+kubectl drain <node_name> --ignore-daemonsets
+```
+
+### 4. Taint - Update the taints on one or more nodes.
+```
+# Update node 'foo' with a taint with key 'dedicated' and value 'special-user' and effect 'NoSchedule'.
+# If a taint with that key and effect already exists, its value is replaced as specified.
+kubectl taint nodes foo dedicated=special-user:NoSchedule
+
+# Remove from node 'foo' the taint with key 'dedicated' and effect 'NoSchedule' if one exists.
+kubectl taint nodes foo dedicated:NoSchedule-
+
+# Remove from node 'foo' all the taints with key 'dedicated'
+kubectl taint nodes foo dedicated-
+
+# Add a taint with key 'dedicated' on nodes having label mylabel=X
+kubectl taint node -l myLabel=X  dedicated=foo:PreferNoSchedule
+```
 
 
 
