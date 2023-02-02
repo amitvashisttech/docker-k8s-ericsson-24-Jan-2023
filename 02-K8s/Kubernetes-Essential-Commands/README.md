@@ -330,13 +330,195 @@ kubectl taint node -l myLabel=X  dedicated=foo:PreferNoSchedule
 ```
 
 
+### 5. Top - Display Resource (CPU/Memory/Storage) usage.
+```
+# Show metrics for all nodes
+kubectl top node
 
-### The below are the list of essential commands that can be used to build images
+# Show metrics for a given node
+kubectl top node NODE_NAME
 
-|     Commands                 |    Description                                  |
-| ------------------------------- | --------------------------------------------- |
-| docker images | List all the images |
-| docker build -t mywebapp:v1 .  | To build a custom image from Dockerfile |
-| docker commit -m "comment" -p container-id new-image-name | Commit the container to build custom image |
-| docker inspect image-id | Inspect the Image Details |
-  
+# Show metrics for all pods in the default namespace
+kubectl top pod
+
+# Show metrics for all pods in the given namespace
+kubectl top pod --namespace=NAMESPACE
+
+# Show metrics for a given pod and its containers
+kubectl top pod POD_NAME --containers
+
+# Show metrics for the pods defined by label name=myLabel
+kubectl top pod -l name=myLabel
+```
+
+### 6. Useful troubleshooting and debugging commands
+```
+# Describe a node
+kubectl describe nodes kubernetes-node-emt8.c.myproject.internal
+
+# Describe a pod
+kubectl describe pods/<pod-name>
+
+# Describe a pod identified by type and name in "pod.json"
+kubectl describe -f pod.json
+
+# Describe all pods
+kubectl describe pods
+
+# Describe pods by label name=myLabel
+kubectl describe po -l name=myLabel
+
+# Describe all pods managed by the 'frontend' replication controller (rc-created pods
+# get the name of the rc as a prefix in the pod the name).
+kubectl describe pods frontend
+```
+
+### 7. Execute a command in a container.
+```
+# Get output from running 'date' from pod 123456-7890, using the first container by default
+kubectl exec 123456-7890 date
+
+# Get output from running 'date' in ruby-container from pod 123456-7890
+kubectl exec 123456-7890 -c ruby-container date
+
+# Switch to raw terminal mode, sends stdin to 'bash' in ruby-container from pod 123456-7890
+# and sends stdout/stderr from 'bash' back to the client
+kubectl exec 123456-7890 -c ruby-container -i -t -- bash -il
+
+# List contents of /usr from the first container of pod 123456-7890 and sort by modification time.
+# If the command you want to execute in the pod has any flags in common (e.g. -i),
+# you must use two dashes (--) to separate your command's flags/arguments.
+# Also note, do not surround your command and its flags/arguments with quotes
+# unless that is how you would execute it normally (i.e., do ls -t /usr, not "ls -t /usr").
+kubectl exec 123456-7890 -i -t -- ls -t /usr
+```
+
+### 8. Logs - Print the logs for a container in a pod or specified resource. If the pod has only one container, the container name is optional.
+
+```
+# Return snapshot logs from pod nginx with only one container
+kubectl logs nginx
+
+# Return snapshot logs for the pods defined by label app=nginx
+kubectl logs -lapp=nginx
+
+# Return snapshot of previous terminated ruby container logs from pod web-1
+kubectl logs -p -c ruby web-1
+
+# Begin streaming the logs of the ruby container in pod web-1
+kubectl logs -f -c ruby web-1
+
+# Display only the most recent 20 lines of output in pod nginx
+kubectl logs --tail=20 nginx
+
+# Show all logs from pod nginx written in the last hour
+kubectl logs --since=1h nginx
+
+# Return snapshot logs from first container of a job named hello
+kubectl logs job/hello
+
+# Return snapshot logs from container nginx-1 of a deployment named nginx
+kubectl logs deployment/nginx -c nginx-1
+```
+
+### 9. Proxy - Creates a proxy server or application-level gateway between localhost and the Kubernetes API Server. It also allows serving static content over specified HTTP path. All incoming data enters through one port and gets forwarded to the remote kubernetes API Server port, except for the path matching the static content path.
+
+```
+# To proxy all of the kubernetes api and nothing else, use:
+$ kubectl proxy --api-prefix=/
+
+# To proxy only part of the kubernetes api and also some static files:
+$ kubectl proxy --www=/my/files --www-prefix=/static/ --api-prefix=/api/
+# The above lets you 'curl localhost:8001/api/v1/pods'.
+
+# To proxy the entire kubernetes api at a different root, use:
+$ kubectl proxy --api-prefix=/custom/
+# The above lets you 'curl localhost:8001/custom/api/v1/pods'
+
+# Run a proxy to kubernetes apiserver on port 8011, serving static content from ./local/www/
+kubectl proxy --port=8011 --www=./local/www/
+
+# Run a proxy to kubernetes apiserver on an arbitrary local port.
+# The chosen port for the server will be output to stdout.
+kubectl proxy --port=0
+```
+
+##  Useful advanced commands
+
+### 1. Apply 
+```
+# Apply the configuration in pod.json to a pod.
+kubectl apply -f ./pod.json
+
+# Apply the JSON passed into stdin to a pod.
+cat pod.json | kubectl apply -f -
+
+# Note: --prune is still in Alpha
+# Apply the configuration in manifest.yaml that matches label app=nginx and delete all the other resources that are not in the file and match label app=nginx.
+kubectl apply --prune -f manifest.yaml -l app=nginx
+
+# Apply the configuration in manifest.yaml and delete all the other configmaps that are not in the file.
+kubectl apply --prune -f manifest.yaml --all --prune-whitelist=core/v1/ConfigMap
+```
+
+### 2. Label - Update the labels on a resource.
+```
+# Update pod 'foo' with the label 'unhealthy' and the value 'true'.
+kubectl label pods foo unhealthy=true
+
+# Update pod 'foo' with the label 'status' and the value 'unhealthy', overwriting any existing value.
+kubectl label --overwrite pods foo status=unhealthy
+
+# Update all pods in the namespace
+kubectl label pods --all status=unhealthy
+
+# Update a pod identified by the type and name in "pod.json"
+kubectl label -f pod.json status=unhealthy
+
+# Update pod 'foo' only if the resource is unchanged from version 1.
+kubectl label pods foo status=unhealthy --resource-version=1
+
+# Update pod 'foo' by removing a label named 'bar' if it exists.
+# Does not require the --overwrite flag.
+kubectl label pods foo bar-
+```
+
+### 3. Config - Modify kubeconfig files using subcommands like “kubectl config set current-context my-context”
+```
+# Display the current-context
+kubectl config current-context
+
+# Delete the minikube cluster
+kubectl config delete-cluster minikube
+
+# Delete the context for the minikube cluster
+kubectl config delete-context minikube
+
+# List the clusters kubectl knows about
+kubectl config get-clusters
+
+# List the context kubectl knows about
+kubectl config get-contexts
+
+# Rename the context 'old-name' to 'new-name' in your kubeconfig file
+kubectl config rename-context old-name new-name
+
+# Set only the server field on the e2e cluster entry without touching other values.
+kubectl config set-cluster e2e --server=https://1.2.3.4
+
+# Embed certificate authority data for the e2e cluster entry
+kubectl config set-cluster e2e --certificate-authority=~/.kube/e2e/kubernetes.ca.crt
+
+# Disable cert checking for the dev cluster entry
+kubectl config set-cluster e2e --insecure-skip-tls-verify=true
+
+# Set the user field on the gce context entry without touching other values
+kubectl config set-context gce --user=cluster-admin
+
+# Use the context for the minikube cluster
+kubectl config use-context minikube
+```
+
+
+
+
