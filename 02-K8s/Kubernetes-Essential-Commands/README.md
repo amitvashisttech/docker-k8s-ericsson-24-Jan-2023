@@ -2,7 +2,7 @@
 
 # Useful basic commands
 
-## Create a resource from a file or form stdin 
+### Create a resource from a file or form stdin 
 ```
 # Create a pod using the data in pod.json.
 kubectl create -f ./pod.json
