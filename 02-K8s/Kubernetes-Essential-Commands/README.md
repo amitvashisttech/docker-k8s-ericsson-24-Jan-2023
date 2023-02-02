@@ -17,6 +17,34 @@ kubectl create -f docker-registry.yaml --edit --output-version=v1 -o json
 kubeclt create -f <folder_name>
 ```
 
+### Delete resources by filename, stdin, resource and names or by resource label selector 
+```
+# Delete a pod using the type and name specified in pod.json.
+kubectl delete -f ./pod.json
+
+# Delete a pod based on the type and name in the JSON passed into stdin.
+cat pod.json | kubectl delete -f -
+
+# Delete pods and services with same names "baz" and "foo"
+kubectl delete pod,service baz foo
+
+# Delete pods and services with label name=myLabel.
+kubectl delete pods,services -l name=myLabel
+
+# Delete a pod with minimal delay
+kubectl delete pod foo --now
+
+# Force delete a pod on a dead node
+kubectl delete pod foo --grace-period=0 --force
+
+# Delete all pods
+kubectl delete pods --all
+
+#Delete all resources available in the folder.
+kubectl delete -f <folder_name>
+```
+
+
 
 
 ### The below are the list of essential commands that can be used to build images
